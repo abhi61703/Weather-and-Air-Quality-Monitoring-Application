@@ -22,7 +22,9 @@ const CommunityPage = () => {
 
     // Create FormData to handle image upload
     const formData = new FormData();
-    formData.append('content', newPost);
+    formData.append('title', newPost.title);
+    formData.append('content', newPost.content);
+    formData.append('caption', newPost.caption);
     if (imageFile) {
       formData.append('image', imageFile);
     }
@@ -33,14 +35,13 @@ const CommunityPage = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setNewPost('');
+      setNewPost({ title: '', content: '', caption: '' });
       setImageFile(null);
       fetchPosts(); // Refresh the posts list
     } catch (error) {
       console.error('Error creating post:', error);
     }
-  };
-
+};
   const fetchPosts = async () => {
     try {
       const response = await axios.get('http://localhost:8082/api/community/posts');
